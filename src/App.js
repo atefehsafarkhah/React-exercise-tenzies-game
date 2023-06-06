@@ -19,13 +19,17 @@ function getRandomNumbersArray(){
 }
 
 const diceElements= dice.map(die=> <Die value={die}/>)
+
+function Roll(){
+  setDice(getRandomNumbersArray())
+}
 return (
     
     <main>
       <div className="container">
     {diceElements}
      </div>
-
+    <button className='roll' onClick={Roll}>Roll</button>  
     </main>
   );
 }
