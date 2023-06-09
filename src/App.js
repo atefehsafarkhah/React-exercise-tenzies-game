@@ -13,16 +13,21 @@ function getRandomNumbersArray(){
   for (let i = 0; i < 10 ; i++) {
     const randomNumber = Math.ceil(Math.random() * 6);
     randomNumbersArray.push({value: randomNumber,
-       isHeld:true,
+       isHeld:false,
        id:nanoid()
   })}
 
   return randomNumbersArray;
 }
  
-const diceElements= dice.map(die=>  <Die  key={die.id} value={die.value} isHeld={die.isHeld}  />)
+const diceElements= dice.map(die=>  <Die  key={die.id} value={die.value}  isHeld={die.isHeld} HoldDice={()=> HoldDice(die.id) } />)
 
-
+function HoldDice(id){
+setDice(oldDice => oldDice.map(die => {
+  return die.id === id ? {...die, isHeld: !die.isHeld} : die
+}
+  ))
+}
 
 function Roll(){
   setDice(getRandomNumbersArray())
@@ -30,7 +35,7 @@ function Roll(){
 return (
     
     <main>
-      <div className="container">
+      <div className="container" >
     {diceElements}
      </div>
     <button className='roll' onClick={Roll}>Roll</button>  

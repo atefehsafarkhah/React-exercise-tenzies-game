@@ -51,7 +51,7 @@ export default  function Die(props) {
  }
 
    return(
-    <div className="die" style={styles} >
+    <div className="die" style={styles} onClick={props.HoldDice}>
     <h1>{props.value}</h1>   
     </div>
    ) 
