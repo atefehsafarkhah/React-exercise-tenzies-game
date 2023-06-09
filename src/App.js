@@ -7,15 +7,21 @@ import {nanoid} from "nanoid"
 function App() {
 const [dice,setDice]=React.useState(getRandomNumbersArray())
 
+
+function getNewRandomNumber(){
+  const randomNumber = Math.ceil(Math.random() * 6);
+  return{
+    value: randomNumber,
+    isHeld:false,
+    id:nanoid() 
+  }
+}
+
 function getRandomNumbersArray(){
   const randomNumbersArray = [];
 
   for (let i = 0; i < 10 ; i++) {
-    const randomNumber = Math.ceil(Math.random() * 6);
-    randomNumbersArray.push({value: randomNumber,
-       isHeld:false,
-       id:nanoid()
-  })}
+    randomNumbersArray.push(getNewRandomNumber())}
 
   return randomNumbersArray;
 }
@@ -30,7 +36,14 @@ setDice(oldDice => oldDice.map(die => {
 }
 
 function Roll(){
-  setDice(getRandomNumbersArray())
+  setDice(oldDice => oldDice.map(die => {
+    return    die.isHeld===false ? getNewRandomNumber() : die
+  }
+    ))
+
+
+
+  // setDice(getRandomNumbersArray())
 }
 return (
     
