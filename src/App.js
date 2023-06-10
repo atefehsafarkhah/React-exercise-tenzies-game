@@ -1,11 +1,23 @@
 import React from 'react';
 import './style.css'; 
-import Die from './Die';
-import {nanoid} from "nanoid"
+import Die from './Die'; 
+import {nanoid} from "nanoid";
+import Confetti from 'react-confetti';
 
 
 function App() {
 const [dice,setDice]=React.useState(getRandomNumbersArray())
+const [tenzies,setTenzies]=React.useState(false)
+
+React.useEffect(()=>{
+const allHeld = dice.every(die => die.isHeld)
+const firstValue = dice[0].value
+const allSameValue = dice.every(die=> die.value === firstValue)
+if (allHeld && allSameValue){
+  setTenzies(true)
+  console.log(" you won!")
+}
+},[dice])
 
 
 function getNewRandomNumber(){
@@ -48,10 +60,15 @@ function Roll(){
 return (
     
     <main>
+                   {tenzies && <Confetti />}
+      <h1 className="title">Tenzies</h1>
+      <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
       <div className="container" >
     {diceElements}
      </div>
-    <button className='roll' onClick={Roll}>Roll</button>  
+    <button className='roll' onClick={Roll}>
+      {tenzies? ' New Game' : ' Roll'}
+    </button> 
     </main>
   );
 }
